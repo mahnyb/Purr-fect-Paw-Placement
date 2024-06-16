@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Adoption Feed</title>
+    <style>
+        body {
+        background-color: #7f6bc2; 
+        }
+        .header-strip {
+            background-color: #c77eda; 
+            color: white;
+            padding: 10px 20px;
+            text-align: left;
+            font-size: 24px;
+            width: 100%;
+            border-radius: 14px;
+        }
+        .header-button {
+            position: absolute;
+            right: 25px; /* Align to the right */
+            top: 18px; /* Align vertically */
+            background-color: white;
+            color: #7f6bc2;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 14px;
+            cursor: pointer;
+            font-size: 16px;
+            text-align: center;;
+        }
+        .pet-adoption-title {
+            font-size: 35px; 
+            margin: 10px 20px;
+        }
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: auto;
+        }
+        .pet-feed {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            align-items: stretch; 
+        }
+        .pet {
+            text-align: center;
+            flex: 0 1 calc(20% - 75px); 
+            margin: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            background-color: #f0f0f0;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .pet img {
+            width: 100%; 
+            height: 200px; 
+            object-fit: cover; 
+            border-radius: 14px; 
+            margin-bottom: 10px;
+        }
+        .pagination {
+            text-align: center;
+            margin-top: 20px;
+        }
+        @media (max-width: 1200px) {
+            /* For smaller screens */
+            .pet {
+                flex-basis: 25%; /* 4 pets per row */
+            }
+        }
+        @media (max-width: 768px) {
+            /* for even smaller screens */
+            .pet {
+                flex-basis: 50%; /* 2 pets per row */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header-strip">
+        🐾 Purrfect Paw Placement
+        <!-- A button to redirect to the Shelter Feed  -->
+        <a href="/adoption/shelters/" style="display: inline-block; background-color: #7f6bc2; color: white; padding: 8px 10px;
+        margin-left: 575px; text-align: center; text-decoration: none; font-size: 16px; border-radius: 14px; cursor: pointer;">Browse by Shelters</a>
+        
+        <!-- A button that redirects to the login page upon logging out -->
+        <a href="/registration/login/" class="header-button">Log Out ↪</a> 
+    </div>
+    <div class="pet-adoption-title">
+        Pet Adoption
+    </div>
+
+    <!-- Button for filteration options -->
+    <button id="filterBtn" style="position: fixed; right: 180px; top: 15px; padding: 8px 10px; font-size: 16px; border-radius: 14px; cursor: pointer;">Filter</button>
+
+    <!-- A form to filter pets based on attributes -->
+    <div id="filterForm" style="display:none; position: fixed; right: 20px; top: 60px; background-color: white; padding: 20px; border-radius: 5px; box-shadow: 0px 0px 10px rgba(0,0,0,0.5);">
+        <form method="get">
+            <div>
+                <!-- Filtering by species -->
+                <label for="species">Species:</label>
+                <select id="species" name="species">
+                    <option value="">All Species</option>
+                    {% for species in species_list %}
+                    <option value="{{ species }}" {% if request.GET.species == species %}selected{% endif %}>{{ species }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <!-- Filtering by breed -->
+                <label for="breed">Breed:</label>
+                <select id="breed" name="breed">
+                    <option value="">All Breeds</option>
+                    {% for breed in breeds_list %}
+                    <option value="{{ breed }}" {% if request.GET.breed == breed %}selected{% endif %}>{{ breed }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <!-- Filtering by age -->
+                <label for="age">Age:</label>
+                <input type="number" id="age" name="age" value="{{ request.GET.age }}">
+            </div>
+            <div>
+                <!-- Filtering by gender -->
+                <label for="gender">Gender:</label>
+                <select id="gender" name="gender">
+                    <option value="">Any</option>
+                    <option value="Male" {% if request.GET.gender == 'Male' %}selected{% endif %}>Male</option>
+                    <option value="Female" {% if request.GET.gender == 'Female' %}selected{% endif %}>Female</option>
+                </select>
+            </div>
+            <div>
+                <!-- Filtering by allergies -->
+                <label for="allergies">Allergies:</label>
+                <input type="text" id="allergies" name="allergies" value="{{ request.GET.allergies }}">
+            </div>
+            <!--  Submitting the form -->
+            <button type="submit">Filter</button>
+        </form>
+    </div>
+
+    <!--  To make the form pop out after clicking the Filter button -->
+    <script>
+    document.getElementById('filterBtn').onclick = function() {
+        var form = document.getElementById('filterForm');
+        if (form.style.display === "none" || form.style.display === "") {
+            form.style.display = "block";
+        } else {
+            form.style.display = "none";
+        }
+    };
+    </script>
+
+    <!-- Displaying all the available pets along with their pictures -->
+    <div class="container">
+        <div class="pet-feed">
+            {% for pet in pets %}
+                <div class="pet">
+                    <a href="{% url 'pet_profile' pet.id %}">
+                        <img src="{{ pet.pictures.url }}" alt="{{ pet.name }}">
+                    </a>
+                    <h3>{{ pet.name }}</h3>
+                    <p>{{ pet.shelter.address }}</p>
+                </div>
+            {% endfor %}
+        </div>
+        <!-- For navigationg more pets -->
+        <div class="pagination">
+            <span class="step-links">
+                {% if pets.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ pets.previous_page_number }}">previous</a>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ pets.number }} of {{ pets.paginator.num_pages }}.
+                </span>
+
+                {% if pets.has_next %}
+                    <a href="?page={{ pets.next_page_number }}">next</a>
+                    <a href="?page={{ pets.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+    </div>
+</body>
+</html>
