@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            background-color: #7f6bc2;
+            font-family: Arial, sans-serif;
+        }
+        .header-strip {
+            background-color: #c77eda; 
+            color: white;
+            padding: 10px 20px;
+            text-align: left;
+            font-size: 24px;
+            width: 100%;
+            border-radius: 14px;
+        }
+        .log-in-title {
+            font-size: 35px; 
+            margin: 10px 20px;
+        }
+        .form-container {
+            background-color: white;
+            width: 100%;
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #555;
+            margin-bottom: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        input[type="text"], input[type="email"], input[type="password"], select {
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button[type="submit"] {
+            background-color: #c77eda;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button[type="submit"]:hover {
+            background-color: #b76acb;
+        }
+        a {
+            color: #c77eda;
+            text-decoration: none;
+            margin-top: 20px;
+            display: inline-block;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="header-strip">
+        🐾 Purrfect Paw Placement
+    </div>
+
+    <div class="log-in-title">
+        Log In 
+    </div>
+
+    <div class="form-container">
+        <h2>{{ page_title }}</h2> 
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Submit</button>
+        </form>
+        <!-- A button that redirects to the General User Sign Up page -->
+        <a href="{% url 'registration:general_signup' %}">Sign up as a General User</a> | 
+        <!-- A button that redirects to the Shelter User Sign Up page -->
+        <a href="{% url 'registration:shelter_signup' %}">Sign up as a Shelter</a>
+
+    </div>
+</body>
+</html>

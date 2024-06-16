@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>General User Sign Up</title>
+    <style>
+        body {
+            background-color: #7f6bc2;
+            font-family: Arial, sans-serif;
+        }
+        .header-strip {
+            background-color: #c77eda; 
+            color: white;
+            padding: 10px 20px;
+            text-align: left;
+            font-size: 24px;
+            width: 100%;
+            border-radius: 14px;
+        }
+        .sign-up-title {
+            font-size: 35px; 
+            margin: 10px 20px;
+        }
+        .form-container {
+            background-color: white;
+            width: 100%;
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #555;
+            margin-bottom: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        input[type="text"], input[type="email"], input[type="password"], select {
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button[type="submit"] {
+            background-color: #c77eda;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button[type="submit"]:hover {
+            background-color: #b76acb;
+        }
+        .login-link {
+            position: fixed;
+            right: 30px;
+            top: 10px;
+            padding: 8px 10px;
+            font-size: 16px;
+            border-radius: 14px;
+            background-color: #7f6bc2;
+            color: white;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="header-strip">
+        🐾 Purrfect Paw Placement
+        <!-- A button that redirects to the login page -->
+        <a href="{% url 'registration:login' %}" style="position: fixed; right: 30px; top: 15px; padding: 8px 10px; font-size: 16px; border-radius: 14px; background-color: #7f6bc2; color: white;">Login</a>
+    </div>
+
+    <div class="sign-up-title">
+          Shelter Sign Up
+    </div>
+
+    <div class="form-container">
+        <h2>Sign up as a Shelter User</h2>
+        <!-- Get the form Signing Up -->
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Sign up</button>
+        </form>
+    </div>
+</body>
+</html>
