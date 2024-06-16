@@ -1,0 +1,16 @@
+Cython>=0.29
+asgiref==3.8.1
+blinker==1.4
+cryptography==3.4.8
+Django>=3.2,<5.1
+Pillow
+httplib2==0.20.2
+importlib-metadata==4.6.4
+more-itertools==8.10.0
+PyJWT==2.3.0
+pyparsing==2.4.7
+PyYAML==5.3.1
+six==1.16.0
+sqlparse==0.4.4
+typing_extensions==4.10.0
+zipp==1.0.0
