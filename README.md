@@ -1,6 +1,6 @@
 # Project Setup Instructions
 
-Welcome to the Purr-fectPawPlacement setup guide. Follow these steps to set up your development environment.
+Welcome to the Purr-fect Paw Placement setup guide. Follow these steps to set up your development environment.
 
 ## Prerequisites
 
